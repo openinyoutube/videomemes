@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redirecting to YouTube...</title>
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Watch this on YouTube!" />
+  <meta property="og:description" content="Redirecting you to an amazing video..." />
+  <meta property="og:image" content="https://img.youtube.com/vi/XdFmLCiAjLU/maxresdefault.jpg" />
+  <meta property="og:url" content="https://yourdomain.com/redirect.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Non-JS fallback for any browser -->
+  <meta http-equiv="refresh" content="0;url=https://youtu.be/XdFmLCiAjLU" />
+
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+    .loader {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #444;
+      border-top: 5px solid #0af;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .message {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+    a {
+      color: #0af;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+
+  <script>
+    window.onload = function () {
+      const webUrl    = "https://youtu.be/XdFmLCiAjLU";
+      const appUrl    = "vnd.youtube://XdFmLCiAjLU";
+      const intentUrl = "intent://youtu.be/XdFmLCiAjLU#Intent;package=com.google.android.youtube;scheme=https;end";
+
+      const ua = navigator.userAgent;
+      if (/Android/i.test(ua)) {
+        window.location.href = intentUrl;
+      } else if (/iPhone|iPad|iPod/i.test(ua)) {
+        window.location.href = appUrl;
+        setTimeout(() => {
+          window.location.href = webUrl;
+        }, 2500);
+      } else {
+        window.location.href = webUrl;
+      }
+    };
+
+    // force reload page with fallback when "click here" is pressed
+    function triggerFallback() {
+      window.location.href = window.location.href;
+    }
+  </script>
+</head>
+<body>
+  <div class="loader"></div>
+  <div class="message">
+    <p>Opening YouTube…</p>
+    <p>If it doesn’t open, <a onclick="triggerFallback()">click here</a>.</p>
+  </div>
+</body>
+</html>
